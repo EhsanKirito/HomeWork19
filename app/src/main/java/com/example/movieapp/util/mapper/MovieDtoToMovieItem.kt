@@ -1,4 +1,4 @@
-package com.example.movieapp.data.model.mapper
+package com.example.movieapp.util.mapper
 
 import com.example.movieapp.data.model.datatransfer.MovieDto
 import com.example.movieapp.data.model.ui.MovieItem

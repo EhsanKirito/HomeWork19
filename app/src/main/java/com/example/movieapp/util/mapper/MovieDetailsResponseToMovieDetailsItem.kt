@@ -1,4 +1,4 @@
-package com.example.movieapp.data.model.mapper
+package com.example.movieapp.util.mapper
 
 import com.example.movieapp.data.model.details.Genre
 import com.example.movieapp.data.model.details.MovieDetailsResponse
