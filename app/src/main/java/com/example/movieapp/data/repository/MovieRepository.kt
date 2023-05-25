@@ -1,8 +1,8 @@
 package com.example.movieapp.data.repository
 
 import com.example.movieapp.data.local.datasource.LocalDataSource
-import com.example.movieapp.data.model.ui.MovieDetailsItem
-import com.example.movieapp.data.model.ui.MovieItem
+import com.example.movieapp.data.remote.model.ui.MovieDetailsItem
+import com.example.movieapp.data.remote.model.ui.MovieItem
 import com.example.movieapp.data.remote.datasource.RemoteDataSource
 import com.example.movieapp.data.remote.safeapicall.ResponseState
 import com.example.movieapp.data.remote.safeapicall.asResponseState
@@ -27,5 +27,9 @@ class MovieRepository @Inject constructor(
 
     suspend fun deleteMovie(movie: MovieItem) {
         localDataSource.deleteMovie(movie)
+    }
+
+    fun searchMovies(searchText:String): Flow<ResponseState<List<MovieItem>>> {
+        return remoteDataSource.searchMovies(searchText).asResponseState()
     }
 }

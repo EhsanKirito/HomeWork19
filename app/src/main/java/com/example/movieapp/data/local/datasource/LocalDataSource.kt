@@ -1,7 +1,7 @@
 package com.example.movieapp.data.local.datasource
 
 import com.example.movieapp.data.DataSource
-import com.example.movieapp.data.model.ui.MovieItem
+import com.example.movieapp.data.remote.model.ui.MovieItem
 import kotlinx.coroutines.flow.Flow
 
 interface LocalDataSource : DataSource {

@@ -1,9 +1,9 @@
 package com.example.movieapp.data.local.datasource
 
-import com.example.movieapp.data.local.database.MovieDao
-import com.example.movieapp.util.mapper.movieEntityToMovieItem
-import com.example.movieapp.util.mapper.movieItemToMovieEntity
-import com.example.movieapp.data.model.ui.MovieItem
+import com.example.movieapp.data.local.database.dao.MovieDao
+import com.example.movieapp.util.convertor.movieEntityToMovieItem
+import com.example.movieapp.util.convertor.movieItemToMovieEntity
+import com.example.movieapp.data.remote.model.ui.MovieItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 

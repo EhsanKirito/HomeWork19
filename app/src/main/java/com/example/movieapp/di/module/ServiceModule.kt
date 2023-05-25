@@ -41,11 +41,11 @@ object ServiceModule {
         val url = chain.request()
             .url
             .newBuilder()
-            .addQueryParameter(API_KEY_VALUE, apiKey)
             .build()
         val request = chain.request()
             .newBuilder()
             .url(url)
+            .addHeader(API_KEY_VALUE, "Bearer $apiKey")
             .build()
         chain.proceed(request)
     }

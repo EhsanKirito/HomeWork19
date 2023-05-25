@@ -2,7 +2,7 @@ package com.example.movieapp.di.module
 
 import android.app.Application
 import androidx.room.Room
-import com.example.movieapp.data.local.database.MovieDao
+import com.example.movieapp.data.local.database.dao.MovieDao
 import com.example.movieapp.data.local.database.MovieDatabase
 import com.example.movieapp.data.local.datasource.LocalDataSource
 import com.example.movieapp.data.local.datasource.LocalDataSourceImpl

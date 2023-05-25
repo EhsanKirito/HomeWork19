@@ -1,11 +1,11 @@
 package com.example.movieapp.data.remote.datasource
 
-import com.example.movieapp.data.model.ui.MovieDetailsItem
-import com.example.movieapp.data.model.ui.MovieItem
+import com.example.movieapp.data.remote.model.ui.MovieDetailsItem
+import com.example.movieapp.data.remote.model.ui.MovieItem
 import com.example.movieapp.data.remote.safeapicall.safeApiCall
 import com.example.movieapp.data.remote.service.MovieApiService
-import com.example.movieapp.util.mapper.movieDetailsResponseToMovieDetailsItem
-import com.example.movieapp.util.mapper.movieDtoToMovieItem
+import com.example.movieapp.util.convertor.movieDetailsResponseToMovieDetailsItem
+import com.example.movieapp.util.convertor.movieDtoToMovieItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -21,6 +21,9 @@ class RemoteDataSourceImpl(private val movieService: MovieApiService) : RemoteDa
 
     override fun getMovieDetails(movieId: Int): Flow<MovieDetailsItem> =
         safeApiCall { movieService.getMovieDetails(movieId) }.map { it.movieDetailsResponseToMovieDetailsItem() }
+
+    override fun searchMovies(searchText: String): Flow<List<MovieItem>> =
+        safeApiCall { movieService.searchMovies(searchText) }.map { it.results!!.movieDtoToMovieItem() }
 
 }
 //class RemoteDataSourceImpl(private val movieService: MovieApiService) : RemoteDataSource {

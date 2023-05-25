@@ -1,7 +1,7 @@
 package com.example.movieapp.data.remote.service
 
-import com.example.movieapp.data.model.datatransfer.MovieResponse
-import com.example.movieapp.data.model.details.MovieDetailsResponse
+import com.example.movieapp.data.remote.model.datatransfer.MovieResponse
+import com.example.movieapp.data.remote.model.details.MovieDetailsResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -16,4 +16,7 @@ interface MovieApiService {
 
     @GET("movie/{movie_id}")
     suspend fun getMovieDetails(@Path("movie_id") movieId: Int): Response<MovieDetailsResponse>
+
+    @GET("search/movie")
+    suspend fun searchMovies(@Query("query") query: String):Response<MovieResponse>
 }
