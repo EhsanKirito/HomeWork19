@@ -14,29 +14,38 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailsViewModel @Inject constructor(val repository: MovieRepository, private val state:SavedStateHandle):ViewModel(){
+class DetailsViewModel @Inject constructor(
+    private val repository: MovieRepository, private val state: SavedStateHandle
+) : ViewModel() {
+    companion object {
+        const val RESPONSE_STATE = "responseState"
+    }
+
     private val _movieDetails = MutableLiveData<MovieDetailsItem>()
     val movieDetails: LiveData<MovieDetailsItem> = _movieDetails
-    private val myId = state.get<Int>("movieId")
+    private val movieId = state.get<Int>(DetailsFragment.MOVIE_ID)
+
     init {
-        if (myId != null) {
-            getMovieDetails(myId)
-        }
+        movieId?.let { getMovieDetails(movieId) }
     }
-    private fun getMovieDetails(id:Int){
+
+    private fun getMovieDetails(movieId: Int) {
         viewModelScope.launch {
-            repository.getMovieDetails(id).collect{
-                when(it){
-                    is ResponseState.Error -> Log.e("TAG", "getMovieDetails: nothing" )
-                    ResponseState.Loading -> Log.e("TAG", "getMovieDetails: go back" )
+            repository.getMovieDetails(movieId).collect { responseState ->
+                when (responseState) {
+                    is ResponseState.Error -> Log.e(
+                        "", "error is: ${responseState.error}"
+                    )
+
+                    ResponseState.Loading -> Log.e("responseState", "detailsViewModel : Loading")
                     is ResponseState.Success -> {
-                        _movieDetails.postValue(it.data!!)
+                        responseState.data.let { movieDetailsItem ->
+                            _movieDetails.postValue(movieDetailsItem)
+                        }
                     }
                 }
-
             }
         }
-
     }
 
 }
