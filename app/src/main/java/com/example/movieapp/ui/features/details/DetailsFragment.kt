@@ -64,7 +64,7 @@ class DetailsFragment : Fragment() {
                         ResponseState.Loading -> {
                             binding.apply {
                                 progressBar.isInvisible = false
-                                constraintLayout.isInvisible = true
+                                group.isInvisible = true
                             }
                         }
 
@@ -73,13 +73,12 @@ class DetailsFragment : Fragment() {
                 }
             }
         }
-
     }
 
     private fun setToUi(movieDetailsItem: MovieDetailsItem) {
         binding.apply {
             progressBar.isInvisible = true
-            constraintLayout.isInvisible = false
+            group.isInvisible = false
         }
         val movieDetailsFragment = movieDetailsItem.toMovieDetailsItemFragment()
         with(movieDetailsFragment) {
