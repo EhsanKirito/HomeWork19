@@ -10,36 +10,21 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentMainBinding
+import com.example.movieapp.util.deligation.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainFragment : Fragment() {
+class MainFragment : Fragment(R.layout.fragment_main) {
+    private val binding by viewBinding(FragmentMainBinding::bind)
+
     private lateinit var navController: NavController
-private var _binding: FragmentMainBinding? = null
-
-private val binding get() = _binding!!
-
-override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-): View? {
-    _binding = FragmentMainBinding.inflate(inflater, container, false)
-    val view = binding.root
-    return view
-}
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bottomNavInitiator()
     }
-
-override fun onDestroyView() {
-    super.onDestroyView()
-    _binding = null
-}
     private fun bottomNavInitiator() {
-        val navHostFragment = childFragmentManager.findFragmentById(R.id.navGraphContainer) as NavHostFragment
+        val navHostFragment =
+            childFragmentManager.findFragmentById(R.id.navGraphContainer) as NavHostFragment
         navController = navHostFragment.navController
         val bottomNavigationView = binding.bottomNav
         bottomNavigationView.setupWithNavController(navController)

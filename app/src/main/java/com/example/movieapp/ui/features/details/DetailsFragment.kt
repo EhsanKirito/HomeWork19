@@ -8,42 +8,35 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.navArgs
+import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentDetailsBinding
+import com.example.movieapp.databinding.FragmentMainBinding
 import com.example.movieapp.ui.features.popular.PopularViewModel
+import com.example.movieapp.util.deligation.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailsFragment : Fragment() {
-private val detailsViewModel : DetailsViewModel by viewModels()
-private var _binding: FragmentDetailsBinding? = null
-private val binding get() = _binding!!
+class DetailsFragment : Fragment(R.layout.fragment_details) {
+    private val binding by viewBinding(FragmentDetailsBinding::bind)
+    private val detailsViewModel: DetailsViewModel by viewModels()
+
     val arg: DetailsFragmentArgs by navArgs()
-
-override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-): View? {
-    _binding = FragmentDetailsBinding.inflate(inflater, container, false)
-    val view = binding.root
-    return view
-}
-
-override fun onDestroyView() {
-    super.onDestroyView()
-    _binding = null
-}
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        detailsViewModel.movieDetails.observe(viewLifecycleOwner){
+        detailsViewModel.movieDetails.observe(viewLifecycleOwner) {
             it.let {
-                setMovieInfo(it.originalTitle.toString(), it.releaseDate.toString(), it.voteAverage?.toFloat() ?: 0.0f)
+                setMovieInfo(
+                    it.originalTitle.toString(),
+                    it.releaseDate.toString(),
+                    it.voteAverage?.toFloat() ?: 0.0f
+                )
             }
         }
     }
-    fun setMovieInfo(title:String, date:String, voteCount:Float){
+
+    fun setMovieInfo(title: String, date: String, voteCount: Float) {
         binding.apply {
             originalTitle.text = title
             releaseDate.text = date
