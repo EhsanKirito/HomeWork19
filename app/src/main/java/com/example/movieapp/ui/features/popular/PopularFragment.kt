@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieapp.databinding.FragmentPopularBinding
@@ -41,7 +42,9 @@ override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     recyclerView = binding.recyclerView
     recyclerView.layoutManager = LinearLayoutManager(binding.root.context)
-    adaptor = PopularAdaptor({},{},{})
+    adaptor = PopularAdaptor({
+          findNavController().navigate(PopularFragmentDirections.actionPopularFragmentToDetailsFragment(it))
+    },{},{})
     recyclerView.adapter = adaptor
     binding.searchMoviesView.setOnQueryTextListener( object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(p0: String?): Boolean {

@@ -12,6 +12,6 @@ data class MovieDetailsItem(
     val releaseDate: String?,
     val runtime: Int?,
     val status: String?,
-    val voteAverage: Double?,
+    val voteAverage: Float?,
     val voteCount: Int?
 )

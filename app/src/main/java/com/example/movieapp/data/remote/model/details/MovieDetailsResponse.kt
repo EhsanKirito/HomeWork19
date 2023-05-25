@@ -52,7 +52,7 @@ data class MovieDetailsResponse(
     @SerializedName("videos")
     val videos: Videos?,
     @SerializedName("vote_average")
-    val voteAverage: Double?,
+    val voteAverage: Float?,
     @SerializedName("vote_count")
     val voteCount: Int?
 )
