@@ -1,6 +1,7 @@
 package com.example.movieapp.ui.features.popular
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -48,11 +49,22 @@ override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         }
 
         override fun onQueryTextChange(p0: String?): Boolean {
-            popularViewModel.searchText(p0?: " ")
+            popularViewModel.defaultSearchText(p0?: " ")
             return true
         }
     })
+    recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val itemPosition = layoutManager.findLastVisibleItemPosition()
+            if (itemPosition == adaptor.itemCount-1){
+                popularViewModel.nextPage()
+            }
+        }
+    })
     popularViewModel.searchMovies.observe(viewLifecycleOwner){
+        Log.e("TAG", "onViewCreated: ${it.size}" )
         adaptor.submitList(it)
     }
 }

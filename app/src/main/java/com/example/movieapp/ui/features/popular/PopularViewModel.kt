@@ -11,6 +11,7 @@ import com.example.movieapp.data.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,22 +24,34 @@ class PopularViewModel @Inject constructor(private val repository: MovieReposito
     val searchMovies: LiveData<List<MovieItem>> = _searchMovies
 
     var job:Job? = null
-
-    fun searchText(searchText: String) {
+    var page = 1
+    var query = ""
+    fun searchText() {
         if(job?.isActive == true) {
-            Log.e("job", "searchText: job is active", )
+            Log.e("job", "searchText: job is active" )
             job?.cancel()
         }
         job = viewModelScope.launch {
             delay(700)
-            repository.searchMovies(searchText).collect {
+            repository.searchMovies(query, page).collect {
                 when(it){
                     is ResponseState.Error -> Log.e("TAG", "searchText: ${it.error}" )
                     ResponseState.Loading -> Log.i("loading", "searchText: loading")
-                    is ResponseState.Success -> _searchMovies.postValue(it.data!!)
+                    is ResponseState.Success -> {
+                        _searchMovies.postValue(_searchMovies.value?.plus(it.data) ?: it.data)
+                    }
                 }
             }
         }
     }
-
+    fun nextPage() {
+        page++
+        searchText()
+    }
+    fun defaultSearchText(searchQuery:String){
+        query = searchQuery
+        _searchMovies.postValue(emptyList())
+        page = 1
+        searchText()
+    }
 }

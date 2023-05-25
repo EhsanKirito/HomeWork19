@@ -11,6 +11,5 @@ interface RemoteDataSource : DataSource {
     fun getPopularMovies(page: Int): Flow<List<MovieItem>>
     fun getUpcomingMovies(page: Int): Flow<List<MovieItem>>
     fun getMovieDetails(movieId: Int): Flow<MovieDetailsItem>
-
-    fun searchMovies(searchText:String):Flow<List<MovieItem>>
+    fun searchMovies(searchText:String, page:Int):Flow<List<MovieItem>>
 }

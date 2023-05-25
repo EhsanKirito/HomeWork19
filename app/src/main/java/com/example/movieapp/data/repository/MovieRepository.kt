@@ -29,7 +29,7 @@ class MovieRepository @Inject constructor(
         localDataSource.deleteMovie(movie)
     }
 
-    fun searchMovies(searchText:String): Flow<ResponseState<List<MovieItem>>> {
-        return remoteDataSource.searchMovies(searchText).asResponseState()
+    fun searchMovies(searchText:String, page:Int): Flow<ResponseState<List<MovieItem>>> {
+        return remoteDataSource.searchMovies(searchText, page).asResponseState()
     }
 }

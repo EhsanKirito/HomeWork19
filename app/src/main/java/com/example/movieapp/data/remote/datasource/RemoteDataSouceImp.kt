@@ -14,7 +14,6 @@ class RemoteDataSourceImpl(private val movieService: MovieApiService) : RemoteDa
     override fun getPopularMovies(page: Int): Flow<List<MovieItem>> =
         safeApiCall { movieService.getPopularMovies(page) }.map { it.results!!.movieDtoToMovieItem() }
 
-
     override fun getUpcomingMovies(page: Int): Flow<List<MovieItem>> =
         safeApiCall { movieService.getUpcomingMovies(page) }.map { it.results.movieDtoToMovieItem() }
 
@@ -22,8 +21,8 @@ class RemoteDataSourceImpl(private val movieService: MovieApiService) : RemoteDa
     override fun getMovieDetails(movieId: Int): Flow<MovieDetailsItem> =
         safeApiCall { movieService.getMovieDetails(movieId) }.map { it.movieDetailsResponseToMovieDetailsItem() }
 
-    override fun searchMovies(searchText: String): Flow<List<MovieItem>> =
-        safeApiCall { movieService.searchMovies(searchText) }.map { it.results!!.movieDtoToMovieItem() }
+    override fun searchMovies(searchText: String, page:Int): Flow<List<MovieItem>> =
+        safeApiCall { movieService.searchMovies(searchText, page) }.map { it.results!!.movieDtoToMovieItem() }
 
 }
 //class RemoteDataSourceImpl(private val movieService: MovieApiService) : RemoteDataSource {

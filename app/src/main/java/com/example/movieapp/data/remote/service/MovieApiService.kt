@@ -18,5 +18,5 @@ interface MovieApiService {
     suspend fun getMovieDetails(@Path("movie_id") movieId: Int): Response<MovieDetailsResponse>
 
     @GET("search/movie")
-    suspend fun searchMovies(@Query("query") query: String):Response<MovieResponse>
+    suspend fun searchMovies(@Query("query") query: String, @Query("page") page: Int):Response<MovieResponse>
 }
