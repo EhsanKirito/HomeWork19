@@ -4,12 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.movieapp.data.remote.model.ui.MovieDetailsItem
+import com.example.movieapp.data.remote.safeapicall.ResponseState
 import com.example.movieapp.databinding.FragmentDetailsBinding
 import com.example.movieapp.util.convertor.toMovieDetailsItemFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
@@ -41,13 +48,39 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        detailsViewModel.movieDetails.observe(viewLifecycleOwner) { movieDetailsItem ->
-            setToUi(movieDetailsItem)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                detailsViewModel.movieDetails.collect { responseState ->
+                    when (responseState) {
+                        is ResponseState.Error -> {
+                            Toast.makeText(
+                                requireContext(),
+                                "ERROOOOOOOOOOOOOOOOOOR",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            binding.progressBar.isInvisible = true
+                        }
+
+                        ResponseState.Loading -> {
+                            binding.apply {
+                                progressBar.isInvisible = false
+                                constraintLayout.isInvisible = true
+                            }
+                        }
+
+                        is ResponseState.Success -> setToUi(responseState.data)
+                    }
+                }
+            }
         }
 
     }
 
     private fun setToUi(movieDetailsItem: MovieDetailsItem) {
+        binding.apply {
+            progressBar.isInvisible = true
+            constraintLayout.isInvisible = false
+        }
         val movieDetailsFragment = movieDetailsItem.toMovieDetailsItemFragment()
         with(movieDetailsFragment) {
             binding.apply {

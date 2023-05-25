@@ -8,5 +8,4 @@ fun List<MovieDto>?.movieDtoToMovieItem(): List<MovieItem> {
         movieDto.movieDtoToMovieItem()
     } ?: emptyList()
 }
-
 private fun MovieDto.movieDtoToMovieItem() = MovieItem(title, posterPath, id)

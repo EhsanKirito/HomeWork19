@@ -1,8 +1,5 @@
 package com.example.movieapp.ui.features.details
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +7,8 @@ import com.example.movieapp.data.remote.model.ui.MovieDetailsItem
 import com.example.movieapp.data.remote.safeapicall.ResponseState
 import com.example.movieapp.data.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,8 +20,11 @@ class DetailsViewModel @Inject constructor(
         const val RESPONSE_STATE = "responseState"
     }
 
-    private val _movieDetails = MutableLiveData<MovieDetailsItem>()
-    val movieDetails: LiveData<MovieDetailsItem> = _movieDetails
+    private val _movieDetails =
+        MutableStateFlow<ResponseState<MovieDetailsItem>>(ResponseState.Loading)
+    val movieDetails: StateFlow<ResponseState<MovieDetailsItem>> = _movieDetails
+//    val movieDetails2 = _movieDetails.asStateFlow()
+
     private val movieId = state.get<Int>(DetailsFragment.MOVIE_ID)
 
     init {
@@ -32,18 +34,8 @@ class DetailsViewModel @Inject constructor(
     private fun getMovieDetails(movieId: Int) {
         viewModelScope.launch {
             repository.getMovieDetails(movieId).collect { responseState ->
-                when (responseState) {
-                    is ResponseState.Error -> Log.e(
-                        "", "error is: ${responseState.error}"
-                    )
+                _movieDetails.emit(responseState)
 
-                    ResponseState.Loading -> Log.e("responseState", "detailsViewModel : Loading")
-                    is ResponseState.Success -> {
-                        responseState.data.let { movieDetailsItem ->
-                            _movieDetails.postValue(movieDetailsItem)
-                        }
-                    }
-                }
             }
         }
     }
