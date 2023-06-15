@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "371650506634",
+    "project_id": "es-hag",
+    "storage_bucket": "es-hag.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:371650506634:android:854b46b61ce39fa358e273",
+        "android_client_info": {
+          "package_name": "com.example.movieapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "371650506634-c30os38jikftsopui3qsgntr0lq0obdn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjpIjHIiVinUJ1tgQWJbZ2vkM67Io8OqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "371650506634-c30os38jikftsopui3qsgntr0lq0obdn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
